@@ -12,18 +12,37 @@ endif
 # Usage:
 # make create version=24.05
 create:
+	# Create a directory for the version
 	mkdir $(version)
+	# Clone the SchedMD slurm repo into the version dir
 	cd $(version) && git clone git@github.com:SchedMD/slurm.git
+	# Checkout the proper branch for that version
 	cd $(version)/slurm && git checkout slurm-$(version)
+	# Make working directories for the current host
 	mkdir $(version)/${HOSTNAME}
 	mkdir $(version)/${HOSTNAME}/build
+	# Build Slurm in the build directory
 	cd $(version)/${HOSTNAME}/build && ../../slurm/configure --prefix=${HOME}/slurm/$(version)/${HOSTNAME} --enable-developer --enable-multiple-slurmd > /dev/null
+	# Install slurm into the build directory
 	cd $(version)/${HOSTNAME}/build &&  make -j install >/dev/null
 	cd $(version)/${HOSTNAME} && mkdir log run state etc spool
+	# Drop the environment file in place, filling in proper values
 	cp env $(version)
 	sed -i 's|HOME|${HOME}|g' $(version)/env
 	sed -i 's/VERSION/$(version)/g' $(version)/env
 	sed -i 's/HOSTNAME/${HOSTNAME}/g' $(version)/env
+	# Set up Slurm.conf and slurmdbd.conf
+	cp slurm.conf $(version)/${HOSTNAME}/etc
+	sed -i 's|HOME|${HOME}|g' $(version)/${HOSTNAME}/etc/slurm.conf
+	sed -i 's/VERSION/$(version)/g' $(version)/${HOSTNAME}/etc/slurm.conf
+	sed -i 's/HOSTNAME/${HOSTNAME}/g' $(version)/${HOSTNAME}/etc/slurm.conf
+	sed -i 's/USER/${USER}/g' $(version)/${HOSTNAME}/etc/slurm.conf
+	cp slurmdbd.conf $(version)/${HOSTNAME}/etc
+	sed -i 's|HOME|${HOME}|g' $(version)/${HOSTNAME}/etc/slurmdbd.conf
+	sed -i 's/VERSION/$(version)/g' $(version)/${HOSTNAME}/etc/slurmdbd.conf
+	sed -i 's/HOSTNAME/${HOSTNAME}/g' $(version)/${HOSTNAME}/etc/slurmdbd.conf
+	sed -i 's/USER/${USER}/g' $(version)/${HOSTNAME}/etc/slurmdbd.conf
+	# Print a nice message for the user
 	echo "$(version) initialized! Run 'source $(version)/env' to enter the environment"
 
 # Start a cluster for a version of Slurm
