@@ -1,0 +1,6 @@
+source "globals.local"
+set my_cluster "HOSTNAME"
+set slurm_dir "$my_slurm_base/$my_cluster"
+set build_dir "$slurm_dir/slurm"
+
+# set mpicc /path/to/mpicc

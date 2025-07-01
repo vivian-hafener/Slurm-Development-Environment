@@ -2,4 +2,6 @@
 
 PATH=HOME/slurm/VERSION/HOSTNAME/bin:$PATH 
 PATH=HOME/slurm/VERSION/HOSTNAME/sbin:$PATH
-export MANPATH=HOME/slurm/VERSION/HOSTNAME/man:/usr/local/man:/usr/local/share/man:/usr/share/man:HOME/slurm/VERSION/HOSTNAME/build/doc/man/man1:HOME/slurm/VERSION/HOSTNAME/build/doc/man/man3:HOME/slurm/VERSION/HOSTNAME/build/doc/man/man5:HOME/slurm/VERSION/HOSTNAME/build/doc/man/man8
+MANPATH=HOME/slurm/VERSION/HOSTNAME/man:/usr/local/man:/usr/local/share/man:/usr/share/man:HOME/slurm/VERSION/HOSTNAME/build/doc/man/man1:HOME/slurm/VERSION/HOSTNAME/build/doc/man/man3:HOME/slurm/VERSION/HOSTNAME/build/doc/man/man5:HOME/slurm/VERSION/HOSTNAME/build/doc/man/man8
+SLURM_LOCAL_GLOBALS_FILE=globals.HOSTNAME
+

@@ -1,0 +1,4 @@
+set my_version "VERSION"
+set my_slurm_base "HOME/slurm/$my_version"
+set src_dir "$my_slurm_base/slurm"
+# set partition "debug"

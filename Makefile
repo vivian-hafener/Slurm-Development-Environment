@@ -42,6 +42,12 @@ create:
 	sed -i 's/VERSION/$(version)/g' $(version)/${HOSTNAME}/etc/slurmdbd.conf
 	sed -i 's/HOSTNAME/${HOSTNAME}/g' $(version)/${HOSTNAME}/etc/slurmdbd.conf
 	sed -i 's/USER/${USER}/g' $(version)/${HOSTNAME}/etc/slurmdbd.conf
+	# Drop in globals.local and globals.hostname
+	cp globals.local $(version)/slurm/testsuite/expect
+	cp globals.hostname $(version)/slurm/testsuite/expect/globals.${HOSTNAME}
+	sed -i 's/VERSION/$(version)/g' $(version)/slurm/testsuite/expect/globals.local
+	sed -i 's|HOME|${HOME}|g' $(version)/slurm/testsuite/expect/globals.local
+	sed -i 's/HOSTNAME/${HOSTNAME}/g' $(version)/slurm/testsuite/expect/globals.${HOSTNAME}
 	# Print a nice message for the user
 	echo "$(version) initialized! Run 'source $(version)/env' to enter the environment"
 
