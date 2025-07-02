@@ -1,6 +1,6 @@
 # Makefile for managing a local Slurm Development Environment
 # Currently this will only run when executed out of /home/user/slurm
-.PHONY: create start configure_env configure_slurm configure_tests clone build install stop slurmctld_log slurmdbd_log ping restart reconfigure
+.PHONY: create start configure_env configure_slurm configure_tests clone build install stop slurmctld_log slurmdbd_log ping restart reconfigure test globals regression
 
 # If a nodecount is not provide for the start command, default to 5 nodes
 ifndef nodecnt
@@ -27,6 +27,9 @@ reconfigure: stop clean configure_slurm start scontrol_reconfigure
 
 # Restart the cluster with a clean environment
 restart: stop clean start
+
+# Run all tests
+test: globals regression
 
 # Clone Slurm into the local environment
 clone:
@@ -85,6 +88,10 @@ configure_tests:
 	sed -i 's/VERSION/$(version)/g' $(version)/slurm/testsuite/expect/globals.local
 	sed -i 's|HOME|${HOME}|g' $(version)/slurm/testsuite/expect/globals.local
 	sed -i 's/HOSTNAME/${HOSTNAME}/g' $(version)/slurm/testsuite/expect/globals.${HOSTNAME}
+	cp testsuite.conf $(version)/slurm/testsuite
+	sed -i 's|HOME|${HOME}|g' $(version)/slurm/testsuite/testsuite.conf
+	sed -i 's/VERSION/$(version)/g' $(version)/slurm/testsuite/testsuite.conf
+	sed -i 's/HOSTNAME/${HOSTNAME}/g' $(version)/slurm/testsuite/testsuite.conf
 
 # Start a cluster # TODO What if I did this with systemd?
 #
@@ -131,3 +138,11 @@ ping:
 # Reconfigure slurmctld
 scontrol_reconfigure:
 	scontrol reconfigure
+
+# Run globals expect tests
+globals:
+	./$(version)/slurm/testsuite/expect/globals
+
+# Run regression.py expect tests
+regression:
+	cd $(version)/slurm/testsuite/expect && ./regression.py
