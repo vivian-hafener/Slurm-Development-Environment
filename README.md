@@ -11,6 +11,39 @@ My development environment is designed with the objectives of reducing the time 
 ### Structure
 This repository contains a `Makefile`, as well as a series of templates that are used to manage and construct Slurm environments.
   
+The environment itself resides in `$HOME/slurm/` follows the following structure for each version:
+```
+25.05
+├── $hostname
+│   ├── bin
+│   ├── build
+│   ├── etc
+│   ├── include
+│   ├── lib
+│   ├── log
+│   ├── run
+│   ├── sbin
+│   ├── share
+│   ├── spool
+│   └── state
+└── slurm
+    ├── auxdir
+    ├── CHANGELOG
+    ├── contribs
+    ├── debian
+    ├── doc
+    ├── etc
+    ├── slurm
+    ├── src
+    ├── testsuite
+    └── tools
+```
+Of note:
+* `25.05/slurm` - Source directory, contains the Slurm repository checked out to the proper version
+* `25.05/$hostname` - host-specific directory, where Slurm is built and installed for this specific host
+* `25.05/$hostname/build` - Where Slurm is built
+* `25.05/hostname/bin`, `etc`, `log`, `run`, etc. - Where this version of Slurm is installed and configured
+  
 ### Use
 The `Makefile` provides many targets identified by verbs with which to interact with the Slurm environments. These are generally self explanatory. For most commands you will need to specify `version=XX.XX`, and for configuration commands you may also need to also specify `dbdpass=`.
   
