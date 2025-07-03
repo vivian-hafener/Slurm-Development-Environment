@@ -39,3 +39,4 @@ which
 dbus-devel
 libcgroup
 pytest3
+cscope

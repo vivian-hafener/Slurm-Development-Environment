@@ -1,6 +1,6 @@
 # Makefile for managing a local Slurm Development Environment
 # Currently this will only run when executed out of /home/user/slurm
-.PHONY: create start configure_env configure_slurm configure_tests clone build install stop slurmctld_log slurmdbd_log ping restart reconfigure test globals regression
+.PHONY: create start configure_env configure_slurm configure_tests clone build install stop slurmctld_log slurmdbd_log ping restart reconfigure test globals regression tags
 
 # If a nodecount is not provide for the start command, default to 5 nodes
 ifndef nodecnt
@@ -146,3 +146,9 @@ globals:
 # Run regression.py expect tests
 regression:
 	cd $(version)/slurm/testsuite/expect && ./regression.py
+
+# Make tags with ctags
+tags:
+	find $(version)/slurm/ -name *.c -o -name *.h -o -name slurm.h.in > $(version)/slurm/cscope.files && ctags -R --language-force=Tcl --append=yes $(version)/slurm/testsuite/expect/* && cscope -i $(version)/slurm/cscope.files -b
+	mv cscope.out $(version)/slurm/
+	mv tags $(version)/slurm/
