@@ -54,7 +54,7 @@ install:
 
 # Drop the environment file in place, filling in proper values
 configure_env:
-	cp env $(version)
+	cp templates/env $(version)
 	sed -i 's|HOME|${HOME}|g' $(version)/env
 	sed -i 's/VERSION/$(version)/g' $(version)/env
 	sed -i 's/HOSTNAME/${HOSTNAME}/g' $(version)/env
@@ -64,31 +64,31 @@ configure_env:
 # Template slurm.conf and slurmdbd.conf for the specified version
 configure_slurm:
 	# Set up Slurm.conf and slurmdbd.conf
-	cp slurm.conf $(version)/${HOSTNAME}/etc
+	cp templates/slurm.conf $(version)/${HOSTNAME}/etc
 	sed -i 's|HOME|${HOME}|g' $(version)/${HOSTNAME}/etc/slurm.conf
 	sed -i 's/VERSION/$(version)/g' $(version)/${HOSTNAME}/etc/slurm.conf
 	sed -i 's/HOSTNAME/${HOSTNAME}/g' $(version)/${HOSTNAME}/etc/slurm.conf
 	sed -i 's/USER/${USER}/g' $(version)/${HOSTNAME}/etc/slurm.conf
 	sed -i 's/NODECNT/$(nodecnt)/g' $(version)/${HOSTNAME}/etc/slurm.conf
 	sed -i 's/PORT/$(port)/g' $(version)/${HOSTNAME}/etc/slurm.conf
-	cp slurmdbd.conf $(version)/${HOSTNAME}/etc
+	cp templates/slurmdbd.conf $(version)/${HOSTNAME}/etc
 	sed -i 's|HOME|${HOME}|g' $(version)/${HOSTNAME}/etc/slurmdbd.conf
 	sed -i 's/VERSION/$(version)/g' $(version)/${HOSTNAME}/etc/slurmdbd.conf
 	sed -i 's/HOSTNAME/${HOSTNAME}/g' $(version)/${HOSTNAME}/etc/slurmdbd.conf
 	sed -i 's/USER/${USER}/g' $(version)/${HOSTNAME}/etc/slurmdbd.conf
 	sed -i 's/PASSWORD/$(dbdpass)/g' $(version)/${HOSTNAME}/etc/slurmdbd.conf
 	-for i in `seq 1 $(nodecnt)`; do mkdir $(version)/${HOSTNAME}/spool/slurmd.n$$i; done;
-	cp cgroup.conf $(version)/${HOSTNAME}/etc
+	cp templates/cgroup.conf $(version)/${HOSTNAME}/etc
 
 # Configure globals.local and globals.hostname
 configure_tests:
 	# Drop in globals.local and globals.hostname
-	cp globals.local $(version)/slurm/testsuite/expect
-	cp globals.hostname $(version)/slurm/testsuite/expect/globals.${HOSTNAME}
+	cp templates/globals.local $(version)/slurm/testsuite/expect
+	cp templates/globals.hostname $(version)/slurm/testsuite/expect/globals.${HOSTNAME}
 	sed -i 's/VERSION/$(version)/g' $(version)/slurm/testsuite/expect/globals.local
 	sed -i 's|HOME|${HOME}|g' $(version)/slurm/testsuite/expect/globals.local
 	sed -i 's/HOSTNAME/${HOSTNAME}/g' $(version)/slurm/testsuite/expect/globals.${HOSTNAME}
-	cp testsuite.conf $(version)/slurm/testsuite
+	cp templates/testsuite.conf $(version)/slurm/testsuite
 	sed -i 's|HOME|${HOME}|g' $(version)/slurm/testsuite/testsuite.conf
 	sed -i 's/VERSION/$(version)/g' $(version)/slurm/testsuite/testsuite.conf
 	sed -i 's/HOSTNAME/${HOSTNAME}/g' $(version)/slurm/testsuite/testsuite.conf
