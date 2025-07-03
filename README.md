@@ -47,6 +47,8 @@ Of note:
 ### Use
 The `Makefile` provides many targets identified by verbs with which to interact with the Slurm environments. These are generally self explanatory. For most commands you will need to specify `version=XX.XX`, and for configuration commands you may also need to also specify `dbdpass=`.
   
+Before running `create`, `build`, or other verbs associated with building Slurm, your system should be up to date and have the proper versions of [Slurm's dependencies](https://slurm.schedmd.com/quickstart_admin.html#prereqs) installed. Reference the official document linked above for the most up-to-date, system-agnostic requirements, or the provided `requirements` for the requirements for compiling for Fedora 42 with cgroups support.
+  
 Verbs that act on environments:
 * create
 * clone
