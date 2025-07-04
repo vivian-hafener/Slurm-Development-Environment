@@ -45,11 +45,11 @@ clone:
 
 # Build Slurm in the local environment
 build:
-	cd $(version)/${HOSTNAME}/build && ../../slurm/configure --prefix=${HOME}/slurm/$(version)/${HOSTNAME} --enable-developer --enable-multiple-slurmd > /dev/null
+	cd $(version)/${HOSTNAME}/build && ../../slurm/configure --prefix=${HOME}/slurm/$(version)/${HOSTNAME} --enable-developer --enable-multiple-slurmd $(flags) > /dev/null
 
 # Install Slurm in the local environment
 install:
-	cd $(version)/${HOSTNAME}/build &&  make -j install >/dev/null
+	cd $(version)/${HOSTNAME}/build && python ${HOME}/slurm/scripts/make.py 
 	cd $(version)/${HOSTNAME} && mkdir log run state etc spool
 
 # Drop the environment file in place, filling in proper values
